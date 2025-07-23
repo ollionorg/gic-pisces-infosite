@@ -7,402 +7,123 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-dark: #190F4E;
-            --accent-pink: #FF0082;
-            --light-bg: #F8F9FA;
-            --white: #FFFFFF;
-            --dark-text: #212529;
-            --light-text: #f8f9fa;
-            --border-color: #e9ecef;
-            --shadow-md: 0 4px 15px rgba(0,0,0,0.08);
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            line-height: 1.7;
-            color: var(--dark-text);
-            background-color: var(--white);
-            margin: 0;
-            overflow-x: hidden;
-        }
-
-        .section {
-            padding: 80px 5%;
-            text-align: center;
-        }
-        
-        .section h2 {
-            font-size: 2.8rem;
-            color: var(--primary-dark);
-            margin-bottom: 1rem;
-        }
-        
-        .section .subtitle {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto 50px auto;
-            color: #555;
-        }
-
-        /* --- Hero Section --- */
-        .hero {
-            background: linear-gradient(45deg, var(--primary-dark), #3b2f87);
-            color: var(--white);
-            height: 90vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .hero h1 {
-            font-size: 4.5rem;
-            font-weight: 700;
-            margin: 0;
-            letter-spacing: 1px;
-        }
-
-        .hero .tagline {
-            font-size: 1.5rem;
-            font-weight: 300;
-            opacity: 0.9;
-            margin-top: 10px;
-        }
-
-        .cta-button {
-            margin-top: 40px;
-            padding: 15px 35px;
-            background-color: var(--accent-pink);
-            color: var(--white);
-            text-decoration: none;
-            font-weight: 600;
-            border-radius: 50px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(255, 0, 130, 0.3);
-        }
-
-        /* --- Pillars Section --- */
-        .pillars-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: left;
-        }
-
-        .pillar-card {
-            background-color: var(--white);
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: var(--shadow-md);
-            border-top: 5px solid transparent;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-
-        .pillar-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent-pink);
-        }
-
-        .pillar-card .icon {
-            width: 60px;
-            height: 60px;
-            margin-bottom: 20px;
-            fill: var(--primary-dark);
-        }
-
-        .pillar-card h3 {
-            font-size: 1.5rem;
-            color: var(--primary-dark);
-            margin-bottom: 15px;
-        }
-
-        .pillar-card p {
-            font-size: 1rem;
-            color: #444;
-        }
-
-        /* --- Workflow Section --- */
-        #workflow {
-            background-color: var(--light-bg);
-        }
-        
-        .workflow-diagram {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            max-width: 1200px;
-            margin: 50px auto 0;
-            flex-wrap: wrap;
-        }
-        
-        .workflow-step {
-            background: var(--white);
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: var(--shadow-md);
-            width: 200px;
-            text-align: center;
-        }
-        
-        .workflow-step .step-number {
-            background-color: var(--primary-dark);
-            color: var(--white);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: 700;
-            font-size: 1.2rem;
-            margin: 0 auto 15px;
-        }
-        
-        .workflow-step h4 {
-            font-size: 1.1rem;
-            color: var(--primary-dark);
-            margin: 0 0 5px 0;
-        }
-        
-        .workflow-arrow {
-            font-size: 2.5rem;
-            color: var(--accent-pink);
-            font-weight: 600;
-        }
-
-        /* --- Stats Section --- */
-        #stats {
-            background: var(--primary-dark);
-            color: var(--white);
-        }
-        
-        #stats h2 { color: var(--white); }
-        #stats .subtitle { color: rgba(255,255,255,0.8); }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .stat-item .stat-number {
-            font-size: 4rem;
-            font-weight: 700;
-            color: var(--accent-pink);
-        }
-
-        .stat-item .stat-label {
-            font-size: 1.1rem;
-            font-weight: 300;
-            margin-top: 5px;
-        }
-
-        /* --- Tech Stack Section --- */
-        .tech-logos {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 50px;
-            max-width: 1000px;
-            margin: 0 auto;
-            filter: grayscale(100%);
-            opacity: 0.7;
-        }
-        .tech-logos img {
-            height: 50px;
-        }
-
-        /* --- Footer --- */
-        footer {
-            background-color: var(--dark-text);
-            color: var(--light-bg);
-            padding: 30px 5%;
-            text-align: center;
-        }
-        
-        /* --- Animation on Scroll --- */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-
-        .fade-in.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
-    <section class="hero">
-        <h1 class="fade-in">Project Pisces ♓</h1>
-        <p class="tagline fade-in" style="transition-delay: 0.2s;">The Next-Generation Cloud Foundation for GIC</p>
-        <a href="#pillars" class="cta-button fade-in" style="transition-delay: 0.4s;">Discover the Features</a>
-    </section>
-
-    <section id="pillars" class="section">
-        <h2>Pillars of Excellence</h2>
-        <p class="subtitle">Project Pisces is built on a foundation of security, automation, and deep observability, empowering teams to build and innovate with speed and confidence.</p>
-        <div class="pillars-grid">
-            <div class="pillar-card fade-in">
-                <svg class="icon" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
-                <h3>Secure by Design</h3>
-                <p>Automated guardrails and proactive threat detection are built-in. With centralized security services like GuardDuty, Security Hub, and Wiz, the platform meets the highest standards for compliance and data protection from day one.</p>
-            </div>
-            <div class="pillar-card fade-in" style="transition-delay: 0.2s;">
-                <svg class="icon" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
-                <h3>Automated Operations</h3>
-                <p>Leveraging Infrastructure as Code (IaC) with Terraform and a robust CI/CD pipeline via GitHub Actions. The Account Factory for Terraform (AFT) enables fully automated, consistent, and rapid provisioning of new AWS accounts.</p>
-            </div>
-            <div class="pillar-card fade-in" style="transition-delay: 0.4s;">
-                <svg class="icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
-                <h3>Centralized & Observable</h3>
-                <p>Gain complete visibility across the entire environment. Centralized logging and monitoring through Splunk and Datadog, combined with unified identity management via AWS Identity Center, provide a single pane of glass for all operations.</p>
-            </div>
+    <div id="password-overlay">
+        <div class="login-box">
+            <h2>Project Pisces Showcase</h2>
+            <p>Please enter the access code to continue.</p>
+            <form id="password-form">
+                <input type="password" id="password-input" placeholder="Password" autofocus>
+                <button type="submit" id="password-submit">Unlock</button>
+                <p id="error-message">Incorrect password. Please try again.</p>
+            </form>
         </div>
-    </section>
-    
-    <section id="workflow" class="section">
-        <h2>From Request to Reality, Automated</h2>
-        <p class="subtitle">The AFT Automation, integrated with BMC Helix, transforms account creation from a manual process into a swift, hands-off workflow.</p>
-        <div class="workflow-diagram">
-            <div class="workflow-step fade-in">
-                <div class="step-number">1</div>
-                <h4>Request Submitted</h4>
-                <p>User requests a new account via the TSP Portal.</p>
+    </div>
+
+    <main id="main-content">
+        <section class="hero">
+            <h1 class="fade-in">Project Pisces ♓</h1>
+            <p class="tagline fade-in" style="transition-delay: 0.2s;">The Next-Generation Cloud Foundation for GIC</p>
+            <a href="#pillars" class="cta-button fade-in" style="transition-delay: 0.4s;">Discover the Features</a>
+        </section>
+
+        <section id="pillars" class="section">
+            <h2>Pillars of Excellence</h2>
+            <p class="subtitle">Project Pisces is built on a foundation of security, automation, and deep observability, empowering teams to build and innovate with speed and confidence.</p>
+            <div class="pillars-grid">
+                <div class="pillar-card fade-in">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+                    <h3>Secure by Design</h3>
+                    <p>Automated guardrails and proactive threat detection are built-in. With centralized security services like GuardDuty, Security Hub, and Wiz, the platform meets the highest standards for compliance and data protection from day one.</p>
+                </div>
+                <div class="pillar-card fade-in" style="transition-delay: 0.2s;">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+                    <h3>Automated Operations</h3>
+                    <p>Leveraging Infrastructure as Code (IaC) with Terraform and a robust CI/CD pipeline via GitHub Actions. The Account Factory for Terraform (AFT) enables fully automated, consistent, and rapid provisioning of new AWS accounts.</p>
+                </div>
+                <div class="pillar-card fade-in" style="transition-delay: 0.4s;">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+                    <h3>Centralized & Observable</h3>
+                    <p>Gain complete visibility across the entire environment. Centralized logging and monitoring through Splunk and Datadog, combined with unified identity management via AWS Identity Center, provide a single pane of glass for all operations.</p>
+                </div>
             </div>
-            <div class="workflow-arrow fade-in" style="transition-delay: 0.2s;">→</div>
-            <div class="workflow-step fade-in" style="transition-delay: 0.2s;">
-                <div class="step-number">2</div>
-                <h4>API Triggered</h4>
-                <p>The request securely triggers the Pisces API Gateway.</p>
+        </section>
+        
+        <section id="workflow" class="section">
+            <h2>From Request to Reality, Automated</h2>
+            <p class="subtitle">The AFT Automation, integrated with BMC Helix, transforms account creation from a manual process into a swift, hands-off workflow.</p>
+            <div class="workflow-diagram">
+                <div class="workflow-step fade-in">
+                    <div class="step-number">1</div>
+                    <h4>Request Submitted</h4>
+                    <p>User requests a new account via the TSP Portal.</p>
+                </div>
+                <div class="workflow-arrow fade-in" style="transition-delay: 0.2s;">→</div>
+                <div class="workflow-step fade-in" style="transition-delay: 0.2s;">
+                    <div class="step-number">2</div>
+                    <h4>API Triggered</h4>
+                    <p>The request securely triggers the Pisces API Gateway.</p>
+                </div>
+                <div class="workflow-arrow fade-in" style="transition-delay: 0.4s;">→</div>
+                <div class="workflow-step fade-in" style="transition-delay: 0.4s;">
+                    <div class="step-number">3</div>
+                    <h4>AFT Pipeline Runs</h4>
+                    <p>GitHub Actions & AFT orchestrate the entire build process.</p>
+                </div>
+                <div class="workflow-arrow fade-in" style="transition-delay: 0.6s;">→</div>
+                <div class="workflow-step fade-in" style="transition-delay: 0.6s;">
+                    <div class="step-number">4</div>
+                    <h4>Secure Account Ready</h4>
+                    <p>A fully compliant, secure account is delivered in minutes.</p>
+                </div>
             </div>
-            <div class="workflow-arrow fade-in" style="transition-delay: 0.4s;">→</div>
-            <div class="workflow-step fade-in" style="transition-delay: 0.4s;">
-                <div class="step-number">3</div>
-                <h4>AFT Pipeline Runs</h4>
-                <p>GitHub Actions & AFT orchestrate the entire build process.</p>
+        </section>
+
+        <section id="stats" class="section">
+            <h2>Impact in Numbers</h2>
+            <p class="subtitle">Project Pisces delivers tangible results, enhancing speed, security, and efficiency across the organization.</p>
+            <div class="stats-grid">
+                <div class="stat-item fade-in">
+                    <div class="stat-number" data-target="95">0</div>
+                    <div class="stat-label">% Automated Compliance</div>
+                </div>
+                <div class="stat-item fade-in" style="transition-delay: 0.2s;">
+                    <div class="stat-number" data-target="15">&lt;0</div>
+                    <div class="stat-label">Minutes to Provision an Account</div>
+                </div>
+                <div class="stat-item fade-in" style="transition-delay: 0.4s;">
+                    <div class="stat-number" data-target="100">0</div>
+                    <div class="stat-label">% Centralized Logging</div>
+                </div>
+                <div class="stat-item fade-in" style="transition-delay: 0.6s;">
+                    <div class="stat-number" data-target="50">0</div>
+                    <div class="stat-label">+ Proactive Guardrails</div>
+                </div>
             </div>
-            <div class="workflow-arrow fade-in" style="transition-delay: 0.6s;">→</div>
-            <div class="workflow-step fade-in" style="transition-delay: 0.6s;">
-                <div class="step-number">4</div>
-                <h4>Secure Account Ready</h4>
-                <p>A fully compliant, secure account is delivered in minutes.</p>
+        </section>
+        
+        <section id="tech-stack" class="section">
+            <h2>Powered by Best-in-Class Technology</h2>
+            <p class="subtitle">We integrate industry-leading tools to build a robust and future-proof cloud platform.</p>
+            <div class="tech-logos fade-in">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" alt="AWS Logo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Terraform_Logo.svg" alt="Terraform Logo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub Logo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Splunk_logo.svg" alt="Splunk Logo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Datadog_logo.svg/2560px-Datadog_logo.svg.png" alt="Datadog Logo">
+                <img src="https://www.wiz.io/hubfs/Wiz%20Logo.svg" alt="Wiz.io Logo" style="height: 40px;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/CyberArk_logo.svg/2560px-CyberArk_logo.svg.png" alt="CyberArk Logo" style="height: 40px;">
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="stats" class="section">
-        <h2>Impact in Numbers</h2>
-        <p class="subtitle">Project Pisces delivers tangible results, enhancing speed, security, and efficiency across the organization.</p>
-        <div class="stats-grid">
-            <div class="stat-item fade-in">
-                <div class="stat-number" data-target="95">0</div>
-                <div class="stat-label">% Automated Compliance</div>
-            </div>
-            <div class="stat-item fade-in" style="transition-delay: 0.2s;">
-                <div class="stat-number" data-target="15">&lt;0</div>
-                <div class="stat-label">Minutes to Provision an Account</div>
-            </div>
-            <div class="stat-item fade-in" style="transition-delay: 0.4s;">
-                <div class="stat-number" data-target="100">0</div>
-                <div class="stat-label">% Centralized Logging</div>
-            </div>
-            <div class="stat-item fade-in" style="transition-delay: 0.6s;">
-                <div class="stat-number" data-target="50">0</div>
-                <div class="stat-label">+ Proactive Guardrails</div>
-            </div>
-        </div>
-    </section>
-    
-    <section id="tech-stack" class="section">
-        <h2>Powered by Best-in-Class Technology</h2>
-        <p class="subtitle">We integrate industry-leading tools to build a robust and future-proof cloud platform.</p>
-        <div class="tech-logos fade-in">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" alt="AWS Logo">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Terraform_Logo.svg" alt="Terraform Logo">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub Logo">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Splunk_logo.svg" alt="Splunk Logo">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Datadog_logo.svg/2560px-Datadog_logo.svg.png" alt="Datadog Logo">
-            <img src="https://www.wiz.io/hubfs/Wiz%20Logo.svg" alt="Wiz.io Logo" style="height: 40px;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/CyberArk_logo.svg/2560px-CyberArk_logo.svg.png" alt="CyberArk Logo" style="height: 40px;">
-        </div>
-    </section>
+        <footer>
+            <p>Project Pisces | A GIC & Ollion Partnership</p>
+        </footer>
+    </main>
 
-    <footer>
-        <p>Project Pisces | A GIC & Ollion Partnership</p>
-    </footer>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    // --- Fade-in elements on scroll ---
-    const faders = document.querySelectorAll('.fade-in');
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.25
-    };
-
-    const appearOnScroll = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    faders.forEach(fader => {
-        appearOnScroll.observe(fader);
-    });
-
-    // --- Animated Stat Counters ---
-    const statsObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const counter = entry.target;
-                const target = +counter.getAttribute('data-target');
-                let speed = 200; // default speed
-
-                const updateCount = () => {
-                    const count = +counter.innerText.replace('<', '');
-                    const increment = target / speed;
-
-                    if (count < target) {
-                        counter.innerText = (counter.innerText.startsWith('<') ? '<' : '') + Math.ceil(count + increment);
-                        setTimeout(updateCount, 10);
-                    } else {
-                        counter.innerText = (counter.innerText.startsWith('<') ? '<' : '') + target;
-                    }
-                };
-                updateCount();
-                observer.unobserve(counter);
-            }
-        });
-    }, { threshold: 0.5 });
-    
-    document.querySelectorAll('.stat-number').forEach(counter => {
-        statsObserver.observe(counter);
-    });
-});
-</script>
-
+    <script src="js/main.js"></script>
 </body>
 </html>
