@@ -6,7 +6,7 @@
     <title>Project Pisces Showcase</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Newsreader:wght@600&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -25,97 +25,117 @@
 
     <main id="main-content">
         <section class="hero">
-            <h1 class="fade-in">Project Pisces ♓</h1>
+            <h1 class="fade-in" id="hero-title">Project Pisces ♓</h1>
             <p class="tagline fade-in" style="transition-delay: 0.2s;">The Next-Generation Cloud Foundation for GIC</p>
-            <a href="#pillars" class="cta-button fade-in" style="transition-delay: 0.4s;">Discover the Features</a>
+            <a href="#interactive-showcases" class="cta-button fade-in" style="transition-delay: 0.4s;">Explore Interactive Showcases</a>
+        </section>
+        
+        <section id="interactive-showcases" class="section">
+            <h2>Technical Showcases</h2>
+            <p class="subtitle">Explore the core processes of Project Pisces through these interactive showcases. Click on the diagrams to learn more about each component.</p>
+            <div class="showcases-grid">
+                <div class="showcase-card fade-in">
+                    <h3>Automated Account Provisioning</h3>
+                    <p>From a simple request in BMC Helix to a fully provisioned, secure AWS account in minutes. This is the power of the Account Factory for Terraform (AFT).</p>
+                    <div class="interactive-diagram" id="aft-workflow-diagram">
+                        <div class="diagram-step" data-step="1" title="User submits a request via the TSP Portal (BMC Helix)."><span>1. Request</span></div>
+                        <div class="diagram-arrow">→</div>
+                        <div class="diagram-step" data-step="2" title="The request securely triggers the Pisces API Gateway."><span>2. API</span></div>
+                        <div class="diagram-arrow">→</div>
+                        <div class="diagram-step" data-step="3" title="GitHub Actions & AFT orchestrate the build via AWS Control Tower."><span>3. AFT</span></div>
+                        <div class="diagram-arrow">→</div>
+                        <div class="diagram-step" data-step="4" title="A compliant, secure account is delivered, ready for use."><span>4. Ready</span></div>
+                    </div>
+                    <div class="diagram-info-box" id="aft-info-box">Click a step to see details.</div>
+                </div>
+
+                <div class="showcase-card fade-in" style="transition-delay: 0.2s;">
+                    <h3>Centralized Security & Monitoring</h3>
+                    <p>A unified security posture. See how we aggregate findings and logs from disparate sources into a single pane of glass for proactive threat management.</p>
+                    <div class="interactive-diagram" id="security-diagram">
+                        <div class="diagram-source" title="GuardDuty: Threat Detection">
+                            <img src="https://aws-icons.com/icons/guardduty.svg" alt="GuardDuty Logo">
+                            <span>GuardDuty</span>
+                        </div>
+                        <div class="diagram-source" title="Security Hub: Centralized Findings">
+                             <img src="https://aws-icons.com/icons/security-hub.svg" alt="Security Hub Logo">
+                            <span>Security Hub</span>
+                        </div>
+                        <div class="diagram-source" title="AWS Config: Compliance Monitoring">
+                             <img src="https://aws-icons.com/icons/config.svg" alt="AWS Config Logo">
+                            <span>Config</span>
+                        </div>
+                        <div class="diagram-arrow">↓</div>
+                        <div class="diagram-center" title="Log Archive Account: Central S3 bucket for all security logs.">
+                            <span>Log Archive</span>
+                        </div>
+                        <div class="diagram-arrow">↓</div>
+                        <div class="diagram-destination" title="Splunk: Log analysis and security event monitoring.">
+                             <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Splunk_logo.svg" alt="Splunk Logo">
+                            <span>Splunk</span>
+                        </div>
+                        <div class="diagram-destination" title="Datadog: Real-time monitoring and observability.">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Datadog_logo.svg/2560px-Datadog_logo.svg.png" alt="Datadog Logo">
+                            <span>Datadog</span>
+                        </div>
+                         <div class="diagram-destination" title="Wiz: Cloud Security Posture Management.">
+                            <img src="https://www.wiz.io/hubfs/Wiz%20Logo.svg" alt="Wiz.io Logo">
+                             <span>Wiz</span>
+                        </div>
+                    </div>
+                     <button class="cta-button-small" id="breakglass-modal-button">Explore Breakglass Procedure</button>
+                </div>
+            </div>
         </section>
 
-        <section id="pillars" class="section">
+        <section id="pillars" class="section alt-bg">
             <h2>Pillars of Excellence</h2>
             <p class="subtitle">Project Pisces is built on a foundation of security, automation, and deep observability, empowering teams to build and innovate with speed and confidence.</p>
             <div class="pillars-grid">
-                <div class="pillar-card fade-in">
+                 <div class="pillar-card fade-in">
                     <svg class="icon" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
                     <h3>Secure by Design</h3>
-                    <p>Automated guardrails and proactive threat detection are built-in. With centralized security services like GuardDuty, Security Hub, and Wiz, the platform meets the highest standards for compliance and data protection from day one.</p>
+                    <p>Leveraging <strong>AWS Control Tower</strong> for foundational security, Project Pisces enforces preventive and detective controls. With centralized services like <strong>AWS GuardDuty, Security Hub, and Wiz</strong>, the platform meets the highest standards for compliance. Integration with <strong>CyberArk</strong> ensures robust secret management.</p>
                 </div>
                 <div class="pillar-card fade-in" style="transition-delay: 0.2s;">
                     <svg class="icon" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
                     <h3>Automated Operations</h3>
-                    <p>Leveraging Infrastructure as Code (IaC) with Terraform and a robust CI/CD pipeline via GitHub Actions. The Account Factory for Terraform (AFT) enables fully automated, consistent, and rapid provisioning of new AWS accounts.</p>
+                    <p>Utilizing <strong>Account Factory for Terraform (AFT)</strong> and a robust CI/CD pipeline, the platform enables automated provisioning of AWS accounts. The integration with <strong>BMC Helix</strong> and <strong>CloudCell</strong> provides a library of approved, deployable AWS resources, transforming account creation into a seamless workflow.</p>
                 </div>
                 <div class="pillar-card fade-in" style="transition-delay: 0.4s;">
                     <svg class="icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
                     <h3>Centralized & Observable</h3>
-                    <p>Gain complete visibility across the entire environment. Centralized logging and monitoring through Splunk and Datadog, combined with unified identity management via AWS Identity Center, provide a single pane of glass for all operations.</p>
-                </div>
-            </div>
-        </section>
-        
-        <section id="workflow" class="section">
-            <h2>From Request to Reality, Automated</h2>
-            <p class="subtitle">The AFT Automation, integrated with BMC Helix, transforms account creation from a manual process into a swift, hands-off workflow.</p>
-            <div class="workflow-diagram">
-                <div class="workflow-step fade-in">
-                    <div class="step-number">1</div>
-                    <h4>Request Submitted</h4>
-                    <p>User requests a new account via the TSP Portal.</p>
-                </div>
-                <div class="workflow-arrow fade-in" style="transition-delay: 0.2s;">→</div>
-                <div class="workflow-step fade-in" style="transition-delay: 0.2s;">
-                    <div class="step-number">2</div>
-                    <h4>API Triggered</h4>
-                    <p>The request securely triggers the Pisces API Gateway.</p>
-                </div>
-                <div class="workflow-arrow fade-in" style="transition-delay: 0.4s;">→</div>
-                <div class="workflow-step fade-in" style="transition-delay: 0.4s;">
-                    <div class="step-number">3</div>
-                    <h4>AFT Pipeline Runs</h4>
-                    <p>GitHub Actions & AFT orchestrate the entire build process.</p>
-                </div>
-                <div class="workflow-arrow fade-in" style="transition-delay: 0.6s;">→</div>
-                <div class="workflow-step fade-in" style="transition-delay: 0.6s;">
-                    <div class="step-number">4</div>
-                    <h4>Secure Account Ready</h4>
-                    <p>A fully compliant, secure account is delivered in minutes.</p>
+                    <p>Gain complete visibility with centralized logging and monitoring through <strong>Splunk</strong> and <strong>Datadog</strong>. <strong>AWS Config</strong> provides continuous monitoring of resource configurations, ensuring compliance. This unified approach offers a single pane of glass for all operations and security monitoring.</p>
                 </div>
             </div>
         </section>
 
-        <section id="stats" class="section">
-            <h2>Impact in Numbers</h2>
-            <p class="subtitle">Project Pisces delivers tangible results, enhancing speed, security, and efficiency across the organization.</p>
-            <div class="stats-grid">
-                <div class="stat-item fade-in">
-                    <div class="stat-number" data-target="95">0</div>
-                    <div class="stat-label">% Automated Compliance</div>
-                </div>
-                <div class="stat-item fade-in" style="transition-delay: 0.2s;">
-                    <div class="stat-number" data-target="15">&lt;0</div>
-                    <div class="stat-label">Minutes to Provision an Account</div>
-                </div>
-                <div class="stat-item fade-in" style="transition-delay: 0.4s;">
-                    <div class="stat-number" data-target="100">0</div>
-                    <div class="stat-label">% Centralized Logging</div>
-                </div>
-                <div class="stat-item fade-in" style="transition-delay: 0.6s;">
-                    <div class="stat-number" data-target="50">0</div>
-                    <div class="stat-label">+ Proactive Guardrails</div>
-                </div>
-            </div>
-        </section>
-        
         <section id="tech-stack" class="section">
-            <h2>Powered by Best-in-Class Technology</h2>
-            <p class="subtitle">We integrate industry-leading tools to build a robust and future-proof cloud platform.</p>
-            <div class="tech-logos fade-in">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" alt="AWS Logo">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Terraform_Logo.svg" alt="Terraform Logo">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub Logo">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Splunk_logo.svg" alt="Splunk Logo">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Datadog_logo.svg/2560px-Datadog_logo.svg.png" alt="Datadog Logo">
-                <img src="https://www.wiz.io/hubfs/Wiz%20Logo.svg" alt="Wiz.io Logo" style="height: 40px;">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/CyberArk_logo.svg/2560px-CyberArk_logo.svg.png" alt="CyberArk Logo" style="height: 40px;">
+            <h2>Core Technologies & CloudCell</h2>
+             <p class="subtitle">Powered by best-in-class technology and integrated with GIC's internal resource hub.</p>
+            <div class="dual-layout">
+                <div class="tech-logos fade-in">
+                    <h4>Technology Stack</h4>
+                    <div class="logo-grid">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" alt="AWS Logo" title="AWS">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Terraform_Logo.svg" alt="Terraform Logo" title="Terraform">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub Logo" title="GitHub">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Splunk_logo.svg" alt="Splunk Logo" title="Splunk">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Datadog_logo.svg/2560px-Datadog_logo.svg.png" alt="Datadog Logo" title="Datadog">
+                        <img src="https://www.wiz.io/hubfs/Wiz%20Logo.svg" alt="Wiz.io Logo" title="Wiz.io">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/CyberArk_logo.svg/2560px-CyberArk_logo.svg.png" alt="CyberArk Logo" title="CyberArk">
+                    </div>
+                </div>
+                <div class="cloudcell-showcase fade-in" style="transition-delay: 0.2s;">
+                    <h4>CloudCell Integration</h4>
+                    <p><strong>CloudCell</strong> is GIC’s in-house solution for deploying approved AWS resources. It's a collection of pre-vetted Terraform modules, ensuring that all deployments on Pisces are compliant and secure from the start.</p>
+                    <div id="cloudcell-interactive">
+                        <p>Simulate deploying a resource with CloudCell:</p>
+                        <button class="cta-button-small" data-module="VPC">Deploy Secure VPC</button>
+                        <button class="cta-button-small" data-module="S3 Bucket">Deploy Compliant S3</button>
+                        <div id="cloudcell-output"></div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -123,6 +143,20 @@
             <p>Project Pisces | A GIC & Ollion Partnership</p>
         </footer>
     </main>
+
+    <div id="breakglass-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Breakglass Access Procedure</h2>
+            <p>In emergencies, this strict, monitored process ensures secure access to the management account.</p>
+            <div class="breakglass-steps">
+                </div>
+            <div class="modal-navigation">
+                <button id="prev-step" disabled>Previous</button>
+                <button id="next-step">Next</button>
+            </div>
+        </div>
+    </div>
 
     <script src="js/main.js"></script>
 </body>
