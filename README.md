@@ -29,14 +29,10 @@ To run and view the interactive showcase on your local machine, you will need Vi
     Open the project folder in Visual Studio Code.
 
 3.  **Install Live Server Extension**
-    If you do not have it installed, go to the **Extensions** view (`Ctrl+Shift+X`) in VS Code and search for `Live Server` by Ritwick Dey. Click **Install**.
-
-    ![Live Server Extension](https://marketplace.visualstudio.com/items?itemName=yandeu.five-server)
+    If you do not have it installed, go to the **Extensions** view (`Ctrl+Shift+X`) in VS Code and search for `Live Server (Five Server)` by Yannick. Click **Install**.
 
 4.  **Launch the Showcase**
-    Right-click the `index.html` file in the VS Code Explorer panel and select **"Open with Live Server"**.
-
-    ![Go Live]
+    Right-click the `index.html` file in the VS Code Explorer panel and select **"Open with Live Server"**. Or you can click on the Live Server prompt at the bottom right.
 
 5.  **View and Interact**
     Your default web browser will automatically open to the correct address, and you can view the showcase.
