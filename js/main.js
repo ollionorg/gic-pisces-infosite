@@ -135,29 +135,38 @@ document.addEventListener("DOMContentLoaded", () => {
         const svg = container.querySelector('.log-flow-connectors');
         const infoBox = document.getElementById('log-flow-info-box');
         const simToggleBtn = document.getElementById('simulation-toggle');
-        const allNodes = Array.from(container.querySelectorAll('[id^="source-"], [id^="hub-"], [id^="process-"], [id^="dest-"]'));
+        const allNodes = Array.from(container.querySelectorAll('.log-flow-item, .log-flow-hub, .log-flow-process'));
         let allPaths = [];
         let isSimulating = false;
         let simulationInterval;
 
         const defaultInfoText = "Hover over a component to trace its data path.";
+
         const descriptions = {
             'source-cloudtrail': '<strong>CloudTrail Logs:</strong> Captures all API activity across accounts. These logs are sent to the Central Security Bucket for audit and threat analysis.',
             'source-config': '<strong>AWS Config Logs:</strong> Records all resource configuration changes, providing a detailed inventory and change history. Logs are stored in the Central Security Bucket.',
-            'source-vpc': '<strong>VPC Flow Logs:</strong> Captures IP traffic information for all network interfaces. This data is sent to the Central Ops Bucket for operational monitoring.',
             'source-guardduty': '<strong>GuardDuty Findings:</strong> A managed threat detection service that continuously monitors for malicious activity. Findings are aggregated in the Central Security Bucket.',
             'source-sechub': '<strong>Security Hub:</strong> Aggregates security findings from various AWS services (including GuardDuty) and third-party tools into a single, standardized format.',
-            'source-wiz': '<strong>Wiz Findings:</strong> Provides cloud security posture management (CSPM) and vulnerability scanning. High-priority findings are ingested into the security data flow.',
+            'source-vpc': '<strong>VPC Flow Logs:</strong> Captures IP traffic information for all network interfaces. This data is sent to the Central Ops Bucket for operational monitoring.',
             'source-datadog': '<strong>Datadog Forwarder λ:</strong> A Lambda function in each member account that ships metrics, traces, and operational logs directly to Datadog for real-time observability.',
             'hub-security': '<strong>Central Security Bucket:</strong> An S3 bucket in the Log Archive account that serves as the single source of truth for all security-related logs and findings from every account.',
             'hub-ops': '<strong>Central Ops Bucket:</strong> A separate S3 bucket in the Log Archive account for centralizing operational logs, such as VPC Flow Logs and EKS audit logs.',
             'process-sqs': '<strong>Event-Driven Queue:</strong> When a log file arrives in S3, EventBridge detects it and sends a message via SNS to an SQS queue. This decouples ingestion from collection, ensuring reliability.',
             'dest-splunk': '<strong>Splunk:</strong> The primary SIEM platform. It ingests all security and operational logs from the SQS queues for advanced analysis, threat hunting, and compliance reporting.',
             'dest-datadog': '<strong>Datadog:</strong> The primary observability platform. It receives operational logs, metrics, and traces directly from the Forwarder Lambda for monitoring application and infrastructure performance.',
-            'dest-expel': '<strong>Expel MDR:</strong> A managed detection and response partner. They ingest critical security logs (like CloudTrail and GuardDuty) from the SQS queue to provide 24/7 security monitoring.'
+            'dest-expel': '<strong>Expel MDR:</strong> A managed detection and response partner. They ingest critical security logs (like CloudTrail and GuardDuty) from the SQS queue to provide 24/7 security monitoring.',
+            'dest-wiz': '<strong>Wiz:</strong> A cloud security platform that connects to the aggregated data in the central S3 buckets to perform posture management, and vulnerability scanning.'
         };
         const connections = {
-            'source-cloudtrail': ['hub-security'], 'source-config': ['hub-security'], 'source-guardduty': ['hub-security'], 'source-sechub': ['hub-security'], 'source-wiz': ['hub-security'], 'source-vpc': ['hub-ops'], 'hub-security': ['process-sqs'], 'hub-ops': ['process-sqs'], 'process-sqs': ['dest-splunk', 'dest-expel'], 'source-datadog': ['dest-datadog']
+            'source-cloudtrail': ['hub-security'], 
+            'source-config': ['hub-security'], 
+            'source-guardduty': ['hub-security'], 
+            'source-sechub': ['hub-security'], 
+            'source-vpc': ['hub-ops'], 
+            'hub-security': ['process-sqs', 'dest-wiz'], 
+            'hub-ops': ['process-sqs', 'dest-wiz'], 
+            'process-sqs': ['dest-splunk', 'dest-expel'],
+            'source-datadog': ['dest-datadog']
         };
 
         function drawConnectors() {
@@ -229,7 +238,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         
         function resetHighlight(isSimulation = false) {
-            if(infoBox && !isSimulation) infoBox.innerHTML = defaultInfoText;
+            if (svg) {
+                svg.querySelectorAll('.flow-particle').forEach(p => p.remove());
+            }
+            if(infoBox && !isSimulation) {
+                infoBox.innerHTML = defaultInfoText;
+            }
             allNodes.forEach(node => node.classList.remove('highlighted'));
             allPaths.forEach(path => path.classList.remove('highlighted'));
         }
@@ -241,7 +255,7 @@ document.addEventListener("DOMContentLoaded", () => {
             simToggleBtn.textContent = isSimulating ? 'Stop Simulation' : 'Start Simulation';
             if (isSimulating) {
                 resetHighlight(true);
-                const sources = Object.keys(connections);
+                const sources = allNodes.filter(n => n.id.startsWith('source-')).map(n => n.id);
                 simulationInterval = setInterval(() => {
                     const randomSource = sources[Math.floor(Math.random() * sources.length)];
                     highlightPath(randomSource, true);
@@ -272,4 +286,4 @@ document.addEventListener("DOMContentLoaded", () => {
         drawConnectors();
         new ResizeObserver(drawConnectors).observe(container);
     }
-});
+}); 
