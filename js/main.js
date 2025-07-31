@@ -85,6 +85,9 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
+        // --- Interactive Log Flow Diagram ---
+        initializeLogFlowDiagram();
+
         // --- CloudCell Integration Showcase ---
         const cloudcellButtons = document.querySelectorAll('#cloudcell-interactive button');
         const cloudcellOutput = document.getElementById('cloudcell-output');
@@ -122,87 +125,151 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
-        // --- Centralized Security Carousel Logic ---
-        const carousel = document.getElementById('security-carousel');
-        if (carousel) {
-            const slides = carousel.querySelectorAll('.carousel-slide');
-            const dotsContainer = document.getElementById('carousel-dots');
-            const overviewIcons = carousel.querySelectorAll('.diagram-overview-icon');
-            let currentSlide = 0;
-            let slideInterval;
+    } // End of startPageAnimations function
 
-            if(slides.length > 0) {
-                slides.forEach((_, index) => {
-                    const dot = document.createElement('button');
-                    dot.classList.add('carousel-dot');
-                    dot.addEventListener('click', () => setSlide(index));
-                    if (dotsContainer) dotsContainer.appendChild(dot);
+
+    function initializeLogFlowDiagram() {
+        const container = document.getElementById('security-log-flow');
+        if (!container) return;
+        
+        const svg = container.querySelector('.log-flow-connectors');
+        const infoBox = document.getElementById('log-flow-info-box');
+        const simToggleBtn = document.getElementById('simulation-toggle');
+        const allNodes = Array.from(container.querySelectorAll('[id^="source-"], [id^="hub-"], [id^="process-"], [id^="dest-"]'));
+        let allPaths = [];
+        let isSimulating = false;
+        let simulationInterval;
+
+        const defaultInfoText = "Hover over a component to trace its data path.";
+        const descriptions = {
+            'source-cloudtrail': '<strong>CloudTrail Logs:</strong> Captures all API activity across accounts. These logs are sent to the Central Security Bucket for audit and threat analysis.',
+            'source-config': '<strong>AWS Config Logs:</strong> Records all resource configuration changes, providing a detailed inventory and change history. Logs are stored in the Central Security Bucket.',
+            'source-vpc': '<strong>VPC Flow Logs:</strong> Captures IP traffic information for all network interfaces. This data is sent to the Central Ops Bucket for operational monitoring.',
+            'source-guardduty': '<strong>GuardDuty Findings:</strong> A managed threat detection service that continuously monitors for malicious activity. Findings are aggregated in the Central Security Bucket.',
+            'source-sechub': '<strong>Security Hub:</strong> Aggregates security findings from various AWS services (including GuardDuty) and third-party tools into a single, standardized format.',
+            'source-wiz': '<strong>Wiz Findings:</strong> Provides cloud security posture management (CSPM) and vulnerability scanning. High-priority findings are ingested into the security data flow.',
+            'source-datadog': '<strong>Datadog Forwarder λ:</strong> A Lambda function in each member account that ships metrics, traces, and operational logs directly to Datadog for real-time observability.',
+            'hub-security': '<strong>Central Security Bucket:</strong> An S3 bucket in the Log Archive account that serves as the single source of truth for all security-related logs and findings from every account.',
+            'hub-ops': '<strong>Central Ops Bucket:</strong> A separate S3 bucket in the Log Archive account for centralizing operational logs, such as VPC Flow Logs and EKS audit logs.',
+            'process-sqs': '<strong>Event-Driven Queue:</strong> When a log file arrives in S3, EventBridge detects it and sends a message via SNS to an SQS queue. This decouples ingestion from collection, ensuring reliability.',
+            'dest-splunk': '<strong>Splunk:</strong> The primary SIEM platform. It ingests all security and operational logs from the SQS queues for advanced analysis, threat hunting, and compliance reporting.',
+            'dest-datadog': '<strong>Datadog:</strong> The primary observability platform. It receives operational logs, metrics, and traces directly from the Forwarder Lambda for monitoring application and infrastructure performance.',
+            'dest-expel': '<strong>Expel MDR:</strong> A managed detection and response partner. They ingest critical security logs (like CloudTrail and GuardDuty) from the SQS queue to provide 24/7 security monitoring.'
+        };
+        const connections = {
+            'source-cloudtrail': ['hub-security'], 'source-config': ['hub-security'], 'source-guardduty': ['hub-security'], 'source-sechub': ['hub-security'], 'source-wiz': ['hub-security'], 'source-vpc': ['hub-ops'], 'hub-security': ['process-sqs'], 'hub-ops': ['process-sqs'], 'process-sqs': ['dest-splunk', 'dest-expel'], 'source-datadog': ['dest-datadog']
+        };
+
+        function drawConnectors() {
+            if (!svg) return;
+            svg.innerHTML = '';
+            allPaths = [];
+            const containerRect = container.getBoundingClientRect();
+            Object.entries(connections).forEach(([startId, endIds]) => {
+                const startNode = document.getElementById(startId);
+                if (!startNode) return;
+                endIds.forEach(endId => {
+                    const endNode = document.getElementById(endId);
+                    if (!endNode) return;
+                    const startRect = startNode.getBoundingClientRect();
+                    const endRect = endNode.getBoundingClientRect();
+                    const startX = startRect.right - containerRect.left;
+                    const startY = startRect.top + startRect.height / 2 - containerRect.top;
+                    const endX = endRect.left - containerRect.left;
+                    const endY = endRect.top + endRect.height / 2 - containerRect.top;
+                    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    const d = `M ${startX} ${startY} C ${startX + 60} ${startY}, ${endX - 60} ${endY}, ${endX} ${endY}`;
+                    path.setAttribute('d', d);
+                    path.id = `path-${startId}-to-${endId}`;
+                    svg.appendChild(path);
+                    allPaths.push(path);
                 });
+            });
+        }
+        
+        function animatePath(path) {
+            const particle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            particle.setAttribute('r', '4');
+            particle.setAttribute('class', 'flow-particle');
+            particle.style.offsetPath = `path('${path.getAttribute('d')}')`;
+            svg.appendChild(particle);
+            particle.addEventListener('animationend', () => particle.remove());
+        }
 
-                const dots = dotsContainer.querySelectorAll('.carousel-dot');
-
-                const setSlide = (index) => {
-                    if (!slides[index]) return;
-                    
-                    slides.forEach(slide => slide.classList.remove('active'));
-                    dots.forEach(dot => dot.classList.remove('active'));
-
-                    const activeSlide = slides[index];
-                    activeSlide.classList.add('active');
-                    if (dots[index]) dots[index].classList.add('active');
-                    
-                    // CRITICAL FIX: Adjust carousel height to match the active slide's content
-                    carousel.style.height = `${activeSlide.scrollHeight}px`;
-                    
-                    currentSlide = index;
-
-                    clearInterval(slideInterval);
-                    slideInterval = setInterval(nextSlide, 7000);
-                };
-
-                const nextSlide = () => {
-                    const newIndex = (currentSlide + 1) % slides.length;
-                    setSlide(newIndex);
-                };
-
-                overviewIcons.forEach(icon => {
-                    icon.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const targetSlideIndex = parseInt(icon.dataset.targetSlide, 10);
-                        setSlide(targetSlideIndex);
+        function highlightPath(nodeId, isSimulation = false) {
+            resetHighlight(isSimulation);
+            if(infoBox && descriptions[nodeId]) {
+                infoBox.innerHTML = isSimulation ? `<strong>Simulating Event:</strong> ${descriptions[nodeId]}`: descriptions[nodeId];
+            }
+            const connectedElements = new Set([nodeId]);
+            let queue = connections[nodeId] ? [...connections[nodeId]] : [];
+            while(queue.length > 0) {
+                const current = queue.shift();
+                connectedElements.add(current);
+                if(connections[current]) queue.push(...connections[current]);
+            }
+            Object.entries(connections).forEach(([start, ends]) => {
+                if(ends.includes(nodeId)) {
+                    connectedElements.add(start);
+                     Object.entries(connections).forEach(([prevStart, prevEnds]) => {
+                       if(prevEnds.includes(start)) connectedElements.add(prevStart);
                     });
-                });
+                }
+            });
+            allNodes.forEach(node => {
+                if(connectedElements.has(node.id)) node.classList.add('highlighted');
+            });
+            allPaths.forEach(path => {
+                const [start, end] = path.id.replace('path-','').split('-to-');
+                if(connectedElements.has(start) && connectedElements.has(end)) {
+                    path.classList.add('highlighted');
+                    animatePath(path);
+                }
+            });
+        }
+        
+        function resetHighlight(isSimulation = false) {
+            if(infoBox && !isSimulation) infoBox.innerHTML = defaultInfoText;
+            allNodes.forEach(node => node.classList.remove('highlighted'));
+            allPaths.forEach(path => path.classList.remove('highlighted'));
+        }
 
-                setSlide(0); // Initialize the first slide
+        function toggleSimulation() {
+            isSimulating = !isSimulating;
+            container.classList.toggle('simulation-active', isSimulating);
+            simToggleBtn.classList.toggle('simulating', isSimulating);
+            simToggleBtn.textContent = isSimulating ? 'Stop Simulation' : 'Start Simulation';
+            if (isSimulating) {
+                resetHighlight(true);
+                const sources = Object.keys(connections);
+                simulationInterval = setInterval(() => {
+                    const randomSource = sources[Math.floor(Math.random() * sources.length)];
+                    highlightPath(randomSource, true);
+                }, 2500);
+            } else {
+                clearInterval(simulationInterval);
+                resetHighlight(false);
             }
         }
-
-        // --- Live Security Feed Logic ---
-        const statusFeed = document.getElementById('status-feed');
-        if (statusFeed) {
-            const events = [
-                { sev: 'high', tool: 'GuardDuty', msg: 'Unusual API activity from IP 203.0.113.45' },
-                { sev: 'high', tool: 'Wiz', msg: 'New critical vulnerability found: Log4j' },
-                { sev: 'medium', tool: 'Config', msg: 'S3 bucket "finance-q3" is now public' },
-                { sev: 'medium', tool: 'Security Hub', msg: 'EC2 i-012345 fails CIS Benchmark 2.2' },
-                { sev: 'low', tool: 'Datadog', msg: 'CPU utilization for rds-prod > 80% for 5m' },
-                { sev: 'low', tool: 'GuardDuty', msg: 'Anomalous login from an unused region' },
-                { sev: 'high', tool: 'Wiz', msg: 'Publicly exposed database with sensitive data' }
-            ];
-            const addFeedEntry = () => {
-                const event = events[Math.floor(Math.random() * events.length)];
-                const newEntry = document.createElement('p');
-                newEntry.className = `feed-entry ${event.sev}`;
-                const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false });
-                newEntry.innerHTML = `[${timestamp}] <span class="tool">[${event.tool}]</span> ${event.msg}`;
-                statusFeed.prepend(newEntry);
-                if (statusFeed.childElementCount > 8) {
-                    statusFeed.lastChild.remove();
+        
+        allNodes.forEach(node => {
+            node.addEventListener('mouseenter', () => {
+                if (!isSimulating) {
+                    highlightPath(node.id);
                 }
-            };
-            addFeedEntry();
-            setInterval(addFeedEntry, 3500);
-        }
+            });
+        });
 
-    } // End of startPageAnimations function
+        container.addEventListener('mouseleave', () => {
+             if (!isSimulating) {
+                resetHighlight();
+             }
+        });
+        
+        simToggleBtn.addEventListener('click', toggleSimulation);
+
+        if (infoBox) infoBox.innerHTML = defaultInfoText;
+        drawConnectors();
+        new ResizeObserver(drawConnectors).observe(container);
+    }
 });
