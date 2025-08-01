@@ -1,20 +1,8 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     
-    // --- PASSWORD PROTECTION LOGIC ---
-    const overlay = document.getElementById('password-overlay');
-    const form = document.getElementById('password-form');
-    const passwordInput = document.getElementById('password-input');
-    const errorMessage = document.getElementById('error-message');
+    // --- INITIALIZATION ---
     const contentContainer = document.getElementById('content-container'); 
-    
-    const correctPassword = 'pisces2025';
-    
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault(); 
 
-        if (passwordInput.value === correctPassword) {
-            overlay.classList.add('hidden');
-            
             try {
                 const response = await fetch('showcase-content.html');
                 if (!response.ok) {
@@ -30,12 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.error("Failed to load page content:", error);
                 contentContainer.innerHTML = "<p style='text-align: center; color: red;'>Error: Could not load showcase content.</p>";
             }
-
-        } else {
-            errorMessage.style.display = 'block';
-            passwordInput.value = '';
-        }
-    });
 
     // --- MAIN CONTENT ANIMATION & INTERACTIVITY LOGIC ---
     function startPageAnimations() {
